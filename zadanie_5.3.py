@@ -5,17 +5,15 @@ fake = Faker()
 
 # Główna klasa dla wizytówki
 class Contact:
-    def __init__(self, first_name, last_name, email, company, position):
+    def __init__(self, first_name, last_name, email):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-        self.company = company
-        self.position = position
 
 # Klasa bazowa wizytówki (dziedziczy z Contact)
 class BaseContact(Contact):
-    def __init__(self, first_name, last_name, email, company, position, private_phone):
-        super().__init__(first_name, last_name, email, company, position)
+    def __init__(self, first_name, last_name, email, private_phone):
+        super().__init__(first_name, last_name, email)
         self.private_phone = private_phone
 
     def contact(self):
@@ -28,7 +26,9 @@ class BaseContact(Contact):
 # Klasa biznesowa wizytówki (dziedziczy z Contact)
 class BusinessContact(Contact):
     def __init__(self, first_name, last_name, email, company, position, work_phone):
-        super().__init__(first_name, last_name, email, company, position)
+        super().__init__(first_name, last_name, email)
+        self.company = company
+        self.position = position
         self.work_phone = work_phone
 
     def contact(self):
@@ -45,15 +45,13 @@ def create_contacts(contact_type, quantity):
         first_name = fake.first_name()
         last_name = fake.last_name()
         email = fake.email()
-        private_phone = fake.phone_number()
 
         if contact_type == 'base':
+            private_phone = fake.phone_number()
             contact = BaseContact(
                 first_name=first_name,
                 last_name=last_name,
                 email=email,
-                company=company,
-                position=position, 
                 private_phone=private_phone
             )
         elif contact_type == 'business':
