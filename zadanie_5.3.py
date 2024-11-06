@@ -3,17 +3,12 @@ from faker import Faker
 # Generator danych
 fake = Faker()
 
-# Główna klasa dla wizytówki
-class Contact:
-    def __init__(self, first_name, last_name, email):
+# Klasa bazowa wizytówki 
+class BaseContact:
+    def __init__(self, first_name, last_name, email, private_phone):
         self.first_name = first_name
         self.last_name = last_name
         self.email = email
-
-# Klasa bazowa wizytówki (dziedziczy z Contact)
-class BaseContact(Contact):
-    def __init__(self, first_name, last_name, email, private_phone):
-        super().__init__(first_name, last_name, email)
         self.private_phone = private_phone
 
     def contact(self):
@@ -23,20 +18,16 @@ class BaseContact(Contact):
     def label_length(self):
         return len(f"{self.first_name} {self.last_name}")
 
-# Klasa biznesowa wizytówki (dziedziczy z Contact)
-class BusinessContact(Contact):
+# Klasa biznesowa wizytówki (dziedziczy z BaseContact)
+class BusinessContact(BaseContact):
     def __init__(self, first_name, last_name, email, company, position, work_phone):
-        super().__init__(first_name, last_name, email)
+        super().__init__(first_name, last_name, email, private_phone=None)
         self.company = company
         self.position = position
         self.work_phone = work_phone
 
     def contact(self):
         print(f"Wybieram numer +48 {self.work_phone} i dzwonię do {self.first_name} {self.last_name}")
-
-    @property
-    def label_length(self):
-        return len(f"{self.first_name} {self.last_name}")
 
 # Funkcja do generowania wizytówek
 def create_contacts(contact_type, quantity):
