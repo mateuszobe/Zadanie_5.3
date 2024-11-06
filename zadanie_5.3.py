@@ -20,8 +20,8 @@ class BaseContact:
 
 # Klasa biznesowa wizytówki (dziedziczy z BaseContact)
 class BusinessContact(BaseContact):
-    def __init__(self, first_name, last_name, email, company, position, work_phone):
-        super().__init__(first_name, last_name, email, private_phone=None)
+    def __init__(self, first_name, last_name, email, private_phone, company, position, work_phone):
+        super().__init__(first_name, last_name, email, private_phone)
         self.company = company
         self.position = position
         self.work_phone = work_phone
@@ -36,9 +36,9 @@ def create_contacts(contact_type, quantity):
         first_name = fake.first_name()
         last_name = fake.last_name()
         email = fake.email()
+        private_phone = fake.phone_number()
 
         if contact_type == 'base':
-            private_phone = fake.phone_number()
             contact = BaseContact(
                 first_name=first_name,
                 last_name=last_name,
@@ -55,6 +55,7 @@ def create_contacts(contact_type, quantity):
                 email=email,
                 company=company,
                 position=position,
+                private_phone = private_phone,
                 work_phone=work_phone
             )
         else:
